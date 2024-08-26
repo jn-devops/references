@@ -2,9 +2,9 @@
 
 namespace Homeful\References\Tests;
 
+use Homeful\References\ReferencesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Homeful\References\ReferencesServiceProvider;
 
 class TestCase extends Orchestra
 {

@@ -2,9 +2,9 @@
 
 namespace Homeful\References;
 
+use Homeful\References\Commands\ReferencesCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Homeful\References\Commands\ReferencesCommand;
 
 class ReferencesServiceProvider extends PackageServiceProvider
 {
