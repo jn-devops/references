@@ -2,9 +2,14 @@
 
 namespace Homeful\References\Tests;
 
-use Homeful\References\ReferencesServiceProvider;
+use Homeful\KwYCCheck\Providers\EventServiceProvider as KyWCCheckEventServiceProvider;
+use Spatie\SchemalessAttributes\SchemalessAttributesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Homeful\References\ReferencesServiceProvider;
+use Homeful\KwYCCheck\KwYCCheckServiceProvider;
+use Homeful\Contracts\ContractsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Homeful\Contacts\ContactsServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -21,6 +26,11 @@ class TestCase extends Orchestra
     {
         return [
             ReferencesServiceProvider::class,
+            KwYCCheckServiceProvider::class,
+            ContactsServiceProvider::class,
+            SchemalessAttributesServiceProvider::class,
+            KyWCCheckEventServiceProvider::class,
+            ContractsServiceProvider::class
         ];
     }
 
@@ -28,9 +38,8 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_references_table.php.stub';
+
+        $migration = include __DIR__.'/../database/migrations/create_inputs_table.php.stub';
         $migration->up();
-        */
     }
 }
