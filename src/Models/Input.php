@@ -2,8 +2,8 @@
 
 namespace Homeful\References\Models;
 
-use Homeful\Common\Traits\HasPackageFactory as HasFactory;
 use Homeful\Common\Classes\Input as InputFieldName;
+use Homeful\Common\Traits\HasPackageFactory as HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,6 +29,6 @@ class Input extends Model
         InputFieldName::DP_TERM,
         InputFieldName::BP_TERM,
         InputFieldName::BP_INTEREST_RATE,
-        InputFieldName::SELLER_COMMISSION_CODE
+        InputFieldName::SELLER_COMMISSION_CODE,
     ];
 }

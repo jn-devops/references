@@ -14,11 +14,11 @@ use Homeful\KwYCCheck\Models\Lead;
  * @property object $owner
  * @property array $metadata
  *
- * @method   int    getKey()
+ * @method int getKey()
  */
 class Reference extends Voucher
 {
-    static public function from(Voucher $voucher): self
+    public static function from(Voucher $voucher): self
     {
         $model = new self;
         $model->setRawAttributes($voucher->getAttributes(), true);
