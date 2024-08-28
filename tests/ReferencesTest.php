@@ -1,19 +1,20 @@
 <?php
 
-
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Homeful\References\Actions\CreateReferenceAction;
 use Homeful\Common\Classes\Input as InputFieldName;
+use Homeful\References\Events\ReferenceCreated;
 use Homeful\Contacts\Models\Contact as Seller;
 use Homeful\References\Data\ReferenceData;
 use Homeful\References\Facades\References;
 use Homeful\References\Models\Reference;
 use Homeful\Contracts\Models\Contract;
+use Illuminate\Support\Facades\Event;
 use Homeful\KwYCCheck\Data\LeadData;
 use Homeful\References\Models\Input;
 use Homeful\KwYCCheck\Models\Lead;
-use Carbon\CarbonInterval;
 use Illuminate\Support\Arr;
+use Carbon\CarbonInterval;
 
 uses(RefreshDatabase::class, WithFaker::class);
 
@@ -168,6 +169,7 @@ dataset('reference', function () {
 });
 
 test('create reference action', function(Lead $lead, array $attribs) {
+    Event::fake();
     $action = app(CreateReferenceAction::class);
     $reference = $action->run($attribs);
     $reference->addEntities($lead);
@@ -175,6 +177,7 @@ test('create reference action', function(Lead $lead, array $attribs) {
         expect($reference)->toBeInstanceOf(Reference::class);
         expect($reference->getLead()->is($lead))->toBeTrue();
     }
+    Event::assertDispatched(ReferenceCreated::class);
 })->with('lead', 'attribs');
 
 test('create reference end point', function(Lead $lead, array $attribs) {

@@ -3,9 +3,10 @@
 namespace Homeful\References\Actions;
 
 use Homeful\Common\Classes\Input as InputFieldName;
+use Homeful\References\Events\ReferenceCreated;
+use Homeful\References\Facades\References;
 use Illuminate\Support\Facades\Validator;
 use Lorisleiva\Actions\Concerns\AsAction;
-use Homeful\References\Facades\References;
 use Homeful\References\Models\Reference;
 use Homeful\References\Models\Input;
 
@@ -18,11 +19,13 @@ class CreateReferenceAction
         $validated = Validator::validate($attribs, $this->rules());
         $input = Input::create($validated);
         $entities = array_filter(compact('input'));
-
-        return References::withEntities(...$entities)
+        $reference = References::withEntities(...$entities)
             ->withStartTime(now())
-            ->withExpireTime(now())
+            ->withExpireTime(now())//TODO: update this
             ->withMetadata($metadata)->create();
+        ReferenceCreated::dispatch($reference);
+
+        return $reference;
     }
 
     public function rules(): array
