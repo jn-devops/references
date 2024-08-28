@@ -17,7 +17,7 @@ class ReferencesServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('references')
-            ->hasConfigFile(['references', 'vouchers'])
+            ->hasConfigFile(['data', 'references', 'vouchers'])
             ->hasViews()
             ->hasMigration('create_inputs_table')
             ->hasRoute('api')

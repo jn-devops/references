@@ -13,13 +13,16 @@ class CreateReferenceAction
 {
     use AsAction;
 
-    public function handle(array $attribs): Reference
+    public function handle(array $attribs, array $metadata = []): Reference
     {
         $validated = Validator::validate($attribs, $this->rules());
         $input = Input::create($validated);
         $entities = array_filter(compact('input'));
 
-        return References::withEntities(...$entities)->create();
+        return References::withEntities(...$entities)
+            ->withStartTime(now())
+            ->withExpireTime(now())
+            ->withMetadata($metadata)->create();
     }
 
     public function rules(): array

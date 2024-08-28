@@ -1,16 +1,18 @@
 <?php
 
-use Illuminate\Support\Arr;
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Homeful\References\Actions\CreateReferenceAction;
 use Homeful\Common\Classes\Input as InputFieldName;
 use Homeful\Contacts\Models\Contact as Seller;
+use Homeful\References\Data\ReferenceData;
 use Homeful\References\Facades\References;
 use Homeful\References\Models\Reference;
 use Homeful\Contracts\Models\Contract;
+use Homeful\KwYCCheck\Data\LeadData;
 use Homeful\References\Models\Input;
 use Homeful\KwYCCheck\Models\Lead;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Arr;
 
 uses(RefreshDatabase::class, WithFaker::class);
 
@@ -138,34 +140,43 @@ test('reference config', function () {
     }
 });
 
-test('create reference action', function(Lead $lead) {
-    $attribs = [
-        InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10)/100,
-        InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10)/100,
-        InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
-        InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
-        InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
-        InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+dataset('attribs', function () {
+    return [
+        [fn() => [
+            InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10)/100,
+            InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10)/100,
+            InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
+            InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
+            InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
+            InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+        ]]
     ];
+});
+
+dataset('reference', function () {
+    return [
+        [fn() => app(CreateReferenceAction::class)->run([
+            InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10)/100,
+            InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10)/100,
+            InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
+            InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
+            InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
+            InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+        ], ['author' => 'Lester'])]
+    ];
+});
+
+test('create reference action', function(Lead $lead, array $attribs) {
     $action = app(CreateReferenceAction::class);
     $reference = $action->run($attribs);
     $reference->addEntities($lead);
-//    expect($reference->getInput()->is($input))->toBeTrue();
     if ($reference instanceof Reference) {
         expect($reference)->toBeInstanceOf(Reference::class);
         expect($reference->getLead()->is($lead))->toBeTrue();
     }
-})->with('lead');
+})->with('lead', 'attribs');
 
-test('create reference end point', function(Lead $lead) {
-    $attribs = [
-        InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10)/100,
-        InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10)/100,
-        InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
-        InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
-        InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
-        InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
-    ];
+test('create reference end point', function(Lead $lead, array $attribs) {
     $booking_server_response = $this->postJson(route('create-reference'), $attribs);
     $booking_server_response->assertStatus(200);
     with($booking_server_response->json(), function (array $json) {
@@ -173,6 +184,19 @@ test('create reference end point', function(Lead $lead) {
         $code = Arr::get($json, 'reference_code');
         expect(Reference::where('code',$code)->first())->toBeInstanceOf(Reference::class);
     });
-})->with('lead');
+})->with('lead', 'attribs');
+
+test('reference has data', function (Reference $reference, Lead $lead, Contract $contract) {
+    $reference->addEntities($lead);
+    $reference->addEntities($contract);
+    with (ReferenceData::fromModel($reference), function(ReferenceData $data) use ($reference, $lead) {
+        expect($data->code)->toBe($reference->code);
+        expect($data->metadata)->toBe($reference->metadata);
+        expect($data->starts_at->eq($reference->starts_at))->toBeTrue();
+        expect($data->expires_at->eq($reference->expires_at))->toBeTrue();
+        expect($data->lead)->toBeInstanceOf(LeadData::class);
+//        expect($data->lead->toArray())->toBe(LeadData::fromModel($reference->getLead())->toArray());
+    });
+})->with('reference', 'lead', 'contract');
 
 
