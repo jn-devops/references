@@ -9,16 +9,12 @@ use Illuminate\Http\Request;
 
 class CreateReferenceController extends Controller
 {
-    public function __construct(protected CreateReferenceAction $action){}
+    public function __construct(protected CreateReferenceAction $action) {}
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function __invoke(Request $request): JsonResponse
     {
         $response = with($this->action->run($request->all()), function (Reference $reference) {
-            return [ 'reference_code' => $reference->code ];
+            return ['reference_code' => $reference->code];
         });
 
         return response()->json($response);

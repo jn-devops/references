@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Homeful\References\References
- *
  */
 class References extends Facade
 {

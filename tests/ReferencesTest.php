@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Homeful\References\Actions\CreateReferenceAction;
 use Homeful\Common\Classes\Input as InputFieldName;
@@ -12,6 +13,19 @@ use Homeful\KwYCCheck\Data\LeadData;
 use Homeful\References\Models\Input;
 use Homeful\KwYCCheck\Models\Lead;
 use Carbon\CarbonInterval;
+=======
+use Carbon\CarbonInterval;
+use Homeful\Common\Classes\Input as InputFieldName;
+use Homeful\Contacts\Models\Contact as Seller;
+use Homeful\Contracts\Models\Contract;
+use Homeful\KwYCCheck\Models\Lead;
+use Homeful\References\Actions\CreateReferenceAction;
+use Homeful\References\Facades\References;
+use Homeful\References\Models\Input;
+use Homeful\References\Models\Reference;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+>>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
 use Illuminate\Support\Arr;
 
 uses(RefreshDatabase::class, WithFaker::class);
@@ -38,31 +52,31 @@ beforeEach(function () {
     $migration->up();
 });
 
-dataset('lead', function() {
+dataset('lead', function () {
     return [
-        [fn() => Lead::factory()->forContact()->create(['id' => LEAD_ID])]
+        [fn () => Lead::factory()->forContact()->create(['id' => LEAD_ID])],
     ];
 });
 
-dataset('contract', function() {
+dataset('contract', function () {
     return [
-        [fn() => Contract::factory()->forCustomer()->forInventory()->create(['id' => CONTRACT_ID])]
+        [fn () => Contract::factory()->forCustomer()->forInventory()->create(['id' => CONTRACT_ID])],
     ];
 });
 
-dataset('seller', function() {
+dataset('seller', function () {
     return [
-        [fn() => Seller::factory()->create(['id' => SELLER_ID])]
+        [fn () => Seller::factory()->create(['id' => SELLER_ID])],
     ];
 });
 
-dataset('input', function() {
+dataset('input', function () {
     return [
-        [fn() => Input::factory()->create(['id' => INPUT_ID])]
+        [fn () => Input::factory()->create(['id' => INPUT_ID])],
     ];
 });
 
-test('input has attributes', function() {
+test('input has attributes', function () {
     $input = Input::factory()->create();
     if ($input instanceof Input) {
         expect($input->percent_down_payment)->toBeFloat();
@@ -79,7 +93,7 @@ test('reference model mimic voucher', function (Input $input, Seller $seller, Le
     $mask = '***-***-***';
     $expiry = CarbonInterval::create(2, 0, 5, 1, 1, 2, 7, 123); // 2 years 5 weeks 1 day 1 hour 2 minutes 7 seconds
     $metadata = [
-        'discount' => 10
+        'discount' => 10,
     ];
     $entities = array_filter(compact('input', 'lead', 'contract'));
     $reference = References::withPrefix($prefix)
@@ -140,6 +154,7 @@ test('reference config', function () {
     }
 });
 
+<<<<<<< HEAD
 dataset('attribs', function () {
     return [
         [fn() => [
@@ -150,6 +165,16 @@ dataset('attribs', function () {
             InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
             InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
         ]]
+=======
+test('create reference action', function (Lead $lead) {
+    $attribs = [
+        InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10) / 100,
+        InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10) / 100,
+        InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
+        InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
+        InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7) / 100,
+        InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+>>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     ];
 });
 
@@ -170,20 +195,37 @@ test('create reference action', function(Lead $lead, array $attribs) {
     $action = app(CreateReferenceAction::class);
     $reference = $action->run($attribs);
     $reference->addEntities($lead);
+<<<<<<< HEAD
+=======
+    //    expect($reference->getInput()->is($input))->toBeTrue();
+>>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     if ($reference instanceof Reference) {
         expect($reference)->toBeInstanceOf(Reference::class);
         expect($reference->getLead()->is($lead))->toBeTrue();
     }
 })->with('lead', 'attribs');
 
+<<<<<<< HEAD
 test('create reference end point', function(Lead $lead, array $attribs) {
+=======
+test('create reference end point', function (Lead $lead) {
+    $attribs = [
+        InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10) / 100,
+        InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10) / 100,
+        InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
+        InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
+        InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7) / 100,
+        InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+    ];
+>>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     $booking_server_response = $this->postJson(route('create-reference'), $attribs);
     $booking_server_response->assertStatus(200);
     with($booking_server_response->json(), function (array $json) {
         expect(Arr::get($json, 'reference_code'))->toBeString();
         $code = Arr::get($json, 'reference_code');
-        expect(Reference::where('code',$code)->first())->toBeInstanceOf(Reference::class);
+        expect(Reference::where('code', $code)->first())->toBeInstanceOf(Reference::class);
     });
+<<<<<<< HEAD
 })->with('lead', 'attribs');
 
 test('reference has data', function (Reference $reference, Lead $lead, Contract $contract) {
@@ -200,3 +242,6 @@ test('reference has data', function (Reference $reference, Lead $lead, Contract 
 })->with('reference', 'lead', 'contract');
 
 
+=======
+})->with('lead');
+>>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
