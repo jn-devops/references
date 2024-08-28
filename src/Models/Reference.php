@@ -23,13 +23,9 @@ use Illuminate\Support\Carbon;
  */
 class Reference extends Voucher
 {
-<<<<<<< HEAD
     use HasEntityAttributes;
 
     static public function from(Voucher $voucher): self
-=======
-    public static function from(Voucher $voucher): self
->>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     {
         $model = new self;
         $model->setRawAttributes($voucher->getAttributes(), true);

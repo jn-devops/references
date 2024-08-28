@@ -3,11 +3,11 @@
 namespace Homeful\References\Actions;
 
 use Homeful\Common\Classes\Input as InputFieldName;
-use Homeful\References\Facades\References;
-use Homeful\References\Models\Input;
-use Homeful\References\Models\Reference;
 use Illuminate\Support\Facades\Validator;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Homeful\References\Facades\References;
+use Homeful\References\Models\Reference;
+use Homeful\References\Models\Input;
 
 class CreateReferenceAction
 {

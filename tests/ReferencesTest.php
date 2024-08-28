@@ -1,6 +1,6 @@
 <?php
 
-<<<<<<< HEAD
+
 use Illuminate\Foundation\Testing\{RefreshDatabase, WithFaker};
 use Homeful\References\Actions\CreateReferenceAction;
 use Homeful\Common\Classes\Input as InputFieldName;
@@ -13,19 +13,6 @@ use Homeful\KwYCCheck\Data\LeadData;
 use Homeful\References\Models\Input;
 use Homeful\KwYCCheck\Models\Lead;
 use Carbon\CarbonInterval;
-=======
-use Carbon\CarbonInterval;
-use Homeful\Common\Classes\Input as InputFieldName;
-use Homeful\Contacts\Models\Contact as Seller;
-use Homeful\Contracts\Models\Contract;
-use Homeful\KwYCCheck\Models\Lead;
-use Homeful\References\Actions\CreateReferenceAction;
-use Homeful\References\Facades\References;
-use Homeful\References\Models\Input;
-use Homeful\References\Models\Reference;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
->>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
 use Illuminate\Support\Arr;
 
 uses(RefreshDatabase::class, WithFaker::class);
@@ -154,7 +141,6 @@ test('reference config', function () {
     }
 });
 
-<<<<<<< HEAD
 dataset('attribs', function () {
     return [
         [fn() => [
@@ -165,16 +151,6 @@ dataset('attribs', function () {
             InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
             InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
         ]]
-=======
-test('create reference action', function (Lead $lead) {
-    $attribs = [
-        InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10) / 100,
-        InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10) / 100,
-        InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
-        InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
-        InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7) / 100,
-        InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
->>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     ];
 });
 
@@ -195,29 +171,13 @@ test('create reference action', function(Lead $lead, array $attribs) {
     $action = app(CreateReferenceAction::class);
     $reference = $action->run($attribs);
     $reference->addEntities($lead);
-<<<<<<< HEAD
-=======
-    //    expect($reference->getInput()->is($input))->toBeTrue();
->>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     if ($reference instanceof Reference) {
         expect($reference)->toBeInstanceOf(Reference::class);
         expect($reference->getLead()->is($lead))->toBeTrue();
     }
 })->with('lead', 'attribs');
 
-<<<<<<< HEAD
 test('create reference end point', function(Lead $lead, array $attribs) {
-=======
-test('create reference end point', function (Lead $lead) {
-    $attribs = [
-        InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10) / 100,
-        InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10) / 100,
-        InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
-        InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
-        InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7) / 100,
-        InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
-    ];
->>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
     $booking_server_response = $this->postJson(route('create-reference'), $attribs);
     $booking_server_response->assertStatus(200);
     with($booking_server_response->json(), function (array $json) {
@@ -225,7 +185,6 @@ test('create reference end point', function (Lead $lead) {
         $code = Arr::get($json, 'reference_code');
         expect(Reference::where('code', $code)->first())->toBeInstanceOf(Reference::class);
     });
-<<<<<<< HEAD
 })->with('lead', 'attribs');
 
 test('reference has data', function (Reference $reference, Lead $lead, Contract $contract) {
@@ -240,8 +199,3 @@ test('reference has data', function (Reference $reference, Lead $lead, Contract 
 //        expect($data->lead->toArray())->toBe(LeadData::fromModel($reference->getLead())->toArray());
     });
 })->with('reference', 'lead', 'contract');
-
-
-=======
-})->with('lead');
->>>>>>> 377141cbbfe67bb4db9bbd30171eebc065c82802
