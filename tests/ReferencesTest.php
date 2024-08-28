@@ -175,7 +175,7 @@ test('create reference action', function(Lead $lead, array $attribs) {
     $reference->addEntities($lead);
     if ($reference instanceof Reference) {
         expect($reference)->toBeInstanceOf(Reference::class);
-        expect($reference->getLead()->is($lead))->toBeTrue();
+        expect($reference->getLead()->is($lead))->toBeTrue();;
     }
     Event::assertDispatched(ReferenceCreated::class);
 })->with('lead', 'attribs');

@@ -17,8 +17,10 @@ use Illuminate\Support\Carbon;
  * @property string $checkin_code
  * @property object $owner
  * @property array $metadata
- * @property Input $input
  *
+ * @method Input getInput()
+ * @method Lead getLead()
+ * @method Contract getContract()
  * @method int getKey()
  */
 class Reference extends Voucher
@@ -46,18 +48,5 @@ class Reference extends Voucher
         return $this->where('code', $value)->firstOrFail();
     }
 
-    public function getInput(): Input
-    {
-        return $this->getEntities(Input::class)->first();
-    }
 
-    public function getLead(): Lead
-    {
-        return $this->getEntities(Lead::class)->first();
-    }
-
-    public function getContract(): Contract
-    {
-        return $this->getEntities(Contract::class)->first();
-    }
 }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Homeful\References\Models\Reference;
 use Homeful\References\Models\Input;
+use Carbon\CarbonInterval;
 
 class CreateReferenceAction
 {
@@ -17,11 +18,11 @@ class CreateReferenceAction
     public function handle(array $attribs, array $metadata = []): Reference
     {
         $validated = Validator::validate($attribs, $this->rules());
-        $input = Input::create($validated);
-        $entities = array_filter(compact('input'));
-        $reference = References::withEntities(...$entities)
+        $input = app(Input::class)->create($validated);
+//        $entities = $this->getEntities($validated);
+        $reference = References::withEntities(...$this->getEntities($validated))
             ->withStartTime(now())
-            ->withExpireTime(now())//TODO: update this
+            ->withExpireDateIn($this->getInterval())
             ->withMetadata($metadata)->create();
         ReferenceCreated::dispatch($reference);
 
@@ -38,5 +39,24 @@ class CreateReferenceAction
             InputFieldName::BP_INTEREST_RATE => ['required', 'numeric', 'min:0', 'max:0.20'],
             InputFieldName::SELLER_COMMISSION_CODE => ['required', 'string'],
         ];
+    }
+
+    /**
+     * @return CarbonInterval
+     * @throws \Exception
+     */
+    public function getInterval(): CarbonInterval
+    {
+        return CarbonInterval::create(config('references.expiry', 'P30D'));
+    }
+
+    /**
+     * @return array
+     */
+    public function getEntities(array $validated): array
+    {
+        $input = app(Input::class)->create($validated);
+
+        return array_filter(compact('input'));
     }
 }

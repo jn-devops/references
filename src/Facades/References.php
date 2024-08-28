@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Homeful\References\References
+ *
+ * @method static withEntities(array $entities)
  */
 class References extends Facade
 {
