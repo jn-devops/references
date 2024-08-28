@@ -15,12 +15,15 @@ class CreateReferenceAction
 {
     use AsAction;
 
+    /**
+     * @param array $attribs
+     * @param array $metadata
+     * @return Reference
+     * @throws \Exception
+     */
     public function handle(array $attribs, array $metadata = []): Reference
     {
-        $validated = Validator::validate($attribs, $this->rules());
-        $input = app(Input::class)->create($validated);
-//        $entities = $this->getEntities($validated);
-        $reference = References::withEntities(...$this->getEntities($validated))
+        $reference = References::withEntities(...$this->getEntities($attribs))
             ->withStartTime(now())
             ->withExpireDateIn($this->getInterval())
             ->withMetadata($metadata)->create();
@@ -29,6 +32,9 @@ class CreateReferenceAction
         return $reference;
     }
 
+    /**
+     * @return array[]
+     */
     public function rules(): array
     {
         return [
@@ -51,10 +57,12 @@ class CreateReferenceAction
     }
 
     /**
+     * @param array $attribs
      * @return array
      */
-    public function getEntities(array $validated): array
+    public function getEntities(array $attribs): array
     {
+        $validated = Validator::validate($attribs, $this->rules());
         $input = app(Input::class)->create($validated);
 
         return array_filter(compact('input'));
