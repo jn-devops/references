@@ -2,9 +2,9 @@
 
 namespace Homeful\References\Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Homeful\Common\Classes\Input as InputFieldName;
 use Homeful\References\Models\Input;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 class InputFactory extends Factory
 {

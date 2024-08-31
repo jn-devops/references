@@ -2,9 +2,9 @@
 
 namespace Homeful\References\Data;
 
-use Homeful\Contracts\Models\Contract;
 use Homeful\References\Models\Reference;
 use Homeful\Contracts\Data\ContractData;
+use Homeful\Contracts\Models\Contract;
 use Homeful\KwYCCheck\Data\LeadData;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;

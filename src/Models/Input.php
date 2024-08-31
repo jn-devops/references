@@ -2,8 +2,8 @@
 
 namespace Homeful\References\Models;
 
-use Homeful\Common\Classes\Input as InputFieldName;
 use Homeful\Common\Traits\HasPackageFactory as HasFactory;
+use Homeful\Common\Classes\Input as InputFieldName;
 use Illuminate\Database\Eloquent\Model;
 
 /**

@@ -4,8 +4,8 @@ namespace Homeful\References\Tests;
 
 use Homeful\KwYCCheck\Providers\EventServiceProvider as KyWCCheckEventServiceProvider;
 use Spatie\SchemalessAttributes\SchemalessAttributesServiceProvider;
-use Homeful\References\ReferencesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Homeful\References\ReferencesServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Homeful\Contracts\ContractsServiceProvider;
 use Homeful\KwYCCheck\KwYCCheckServiceProvider;
