@@ -3,6 +3,8 @@
 namespace Homeful\References\Tests;
 
 use Homeful\KwYCCheck\Providers\EventServiceProvider as KyWCCheckEventServiceProvider;
+use Homeful\Contracts\Providers\EventServiceProvider as ContractEventServiceProvider;
+use Homeful\Mortgage\Providers\EventServiceProvider as MortgageEventServiceProvider;
 use Spatie\SchemalessAttributes\SchemalessAttributesServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Homeful\References\ReferencesServiceProvider;
@@ -31,6 +33,11 @@ class TestCase extends Orchestra
             SchemalessAttributesServiceProvider::class,
             KyWCCheckEventServiceProvider::class,
             ContractsServiceProvider::class,
+            ContractsServiceProvider::class,
+            SchemalessAttributesServiceProvider::class,
+            MortgageEventServiceProvider::class,
+            ContactsServiceProvider::class,
+            ContractEventServiceProvider::class
         ];
     }
 

@@ -47,6 +47,4 @@ class Reference extends Voucher
     {
         return $this->where('code', $value)->firstOrFail();
     }
-
-
 }

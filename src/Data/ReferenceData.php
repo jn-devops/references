@@ -18,12 +18,13 @@ class ReferenceData extends Data
         public ?Carbon $expires_at,
         public ?Carbon $redeemed_at,
         public ?LeadData $lead,
-//        public ?ContractData $contract,
+        public ?ContractData $contract,
     ) {}
 
     public static function fromModel(Reference $reference): self
     {
-        $isContract = $reference->getContract() instanceof Contract;//TODO: fix ContractData
+        $lead = $reference->getLead();
+        $contract = $reference->getContract();
 
         return new self (
             code: $reference->code,
@@ -31,8 +32,8 @@ class ReferenceData extends Data
             starts_at: $reference->getAttribute('starts_at'),
             expires_at: $reference->getAttribute('expires_at'),
             redeemed_at: $reference->getAttribute('redeemed_at'),
-            lead: null == $reference->getLead() ? null : LeadData::fromModel($reference->getLead()),
-//            contract: $isContract ? ContractData::fromModel($reference->getContract()) : null
+            lead: null == $lead ? null : LeadData::fromModel($lead),
+            contract: null == $contract ? null : ContractData::fromModel($contract)
         );
     }
 }

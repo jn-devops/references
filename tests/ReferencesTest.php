@@ -8,6 +8,7 @@ use Homeful\Contacts\Models\Contact as Seller;
 use Homeful\References\Data\ReferenceData;
 use Homeful\References\Facades\References;
 use Homeful\References\Models\Reference;
+use Homeful\Contracts\Data\ContractData;
 use Homeful\Contracts\Models\Contract;
 use Illuminate\Support\Facades\Event;
 use Homeful\KwYCCheck\Data\LeadData;
@@ -48,7 +49,7 @@ dataset('lead', function () {
 
 dataset('contract', function () {
     return [
-        [fn () => Contract::factory()->forCustomer()->forInventory()->create(['id' => CONTRACT_ID])],
+        [fn () => Contract::factory()->create(['id' => CONTRACT_ID])],
     ];
 });
 
@@ -208,6 +209,6 @@ test('reference has data', function (Reference $reference, Lead $lead, Contract 
         expect($data->starts_at->eq($reference->starts_at))->toBeTrue();
         expect($data->expires_at->eq($reference->expires_at))->toBeTrue();
         expect($data->lead)->toBeInstanceOf(LeadData::class);
-//        expect($data->lead->toArray())->toBe(LeadData::fromModel($reference->getLead())->toArray());
+        expect($data->contract)->toBeInstanceOf(ContractData::class);
     });
 })->with('reference', 'lead', 'contract');
