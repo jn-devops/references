@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.1.3 - 2024-09-07
+
+add nullable reference entity attributes
+
 ## #v1.1.2 - 2024-08-31
 
 fix styling
