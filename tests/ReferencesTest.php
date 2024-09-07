@@ -142,6 +142,15 @@ test('reference config', function () {
     }
 });
 
+test('reference has nullable entity attributes', function () {
+    $reference = References::create();
+    if ($reference instanceof Reference) {
+        expect($reference->getInput())->toBeNull();
+        expect($reference->getLead())->toBeNull();
+        expect($reference->getContract())->toBeNull();
+    }
+});
+
 dataset('attribs', function () {
     return [
         [fn() => [
