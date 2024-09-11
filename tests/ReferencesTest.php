@@ -20,7 +20,7 @@ use Carbon\CarbonInterval;
 uses(RefreshDatabase::class, WithFaker::class);
 
 const INPUT_ID = 1234;
-const LEAD_ID = 1999;
+const LEAD_ID = '9b182ba6-842f-4531-9d38-920e5a904358';
 const CONTRACT_ID = 317;
 const SELLER_ID = 537;
 
@@ -143,15 +143,6 @@ test('reference config', function () {
     }
 });
 
-test('reference has nullable entity attributes', function () {
-    $reference = References::create();
-    if ($reference instanceof Reference) {
-        expect($reference->getInput())->toBeNull();
-        expect($reference->getLead())->toBeNull();
-        expect($reference->getContract())->toBeNull();
-    }
-});
-
 dataset('attribs', function () {
     return [
         [fn() => [
@@ -177,6 +168,21 @@ dataset('reference', function () {
         ], ['author' => 'Lester'])]
     ];
 });
+
+test('reference has initial nullable but settable entity attributes', function (Lead $lead) {
+    $reference = References::create();
+    if ($reference instanceof Reference) {
+        expect($reference->getInput())->toBeNull();
+        expect($reference->getLead())->toBeNull();
+        expect($reference->getContract())->toBeNull();
+        expect($lead->id)->toBeUuid();
+        $reference->addEntities($lead);
+        expect($reference->getLead()->id)->toBe($lead->id);
+        $contact = $lead->contact;
+        expect($contact->id)->toBeUuid();
+        $reference->addEntities($contact);
+    }
+})->with('lead');
 
 test('create reference action', function(Lead $lead, array $attribs) {
     Event::fake();
