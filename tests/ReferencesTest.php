@@ -21,7 +21,7 @@ uses(RefreshDatabase::class, WithFaker::class);
 
 const INPUT_ID = 1234;
 const LEAD_ID = '9b182ba6-842f-4531-9d38-920e5a904358';
-const CONTRACT_ID = 317;
+const CONTRACT_ID = '8b182ba6-842f-4531-9d38-920e5a904359';
 const SELLER_ID = 537;
 
 beforeEach(function () {
@@ -68,6 +68,9 @@ dataset('input', function () {
 test('input has attributes', function () {
     $input = Input::factory()->create();
     if ($input instanceof Input) {
+        expect($input->sku)->toBeString();
+        expect($input->wages)->toBeFloat();
+        expect($input->total_contract_price)->toBeFloat();
         expect($input->percent_down_payment)->toBeFloat();
         expect($input->percent_miscellaneous_fees)->toBeFloat();
         expect($input->down_payment_term)->toBeFloat();
@@ -77,7 +80,7 @@ test('input has attributes', function () {
     }
 });
 
-test('reference model mimic voucher', function (Input $input, Seller $seller, Lead $lead, Contract $contract) {
+test('reference model is a voucher model', function (Input $input, Seller $seller, Lead $lead, Contract $contract) {
     $prefix = 'jn';
     $mask = '***-***-***';
     $expiry = CarbonInterval::create(2, 0, 5, 1, 1, 2, 7, 123); // 2 years 5 weeks 1 day 1 hour 2 minutes 7 seconds
@@ -146,12 +149,16 @@ test('reference config', function () {
 dataset('attribs', function () {
     return [
         [fn() => [
+            InputFieldName::SKU => $this->faker->word(),
+            InputFieldName::WAGES => $this->faker->numberBetween(10000, 120000) * 1.00,
+            InputFieldName::TCP => $this->faker->numberBetween(850000, 4000000) * 1.00,
             InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10)/100,
             InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10)/100,
             InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
             InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
             InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
             InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+            InputFieldName::PROMO_CODE => $this->faker->word(),
         ]]
     ];
 });
@@ -159,17 +166,21 @@ dataset('attribs', function () {
 dataset('reference', function () {
     return [
         [fn() => app(CreateReferenceAction::class)->run([
+            InputFieldName::SKU => $this->faker->word(),
+            InputFieldName::WAGES => $this->faker->numberBetween(10000, 120000) * 1.00,
+            InputFieldName::TCP => $this->faker->numberBetween(850000, 4000000) * 1.00,
             InputFieldName::PERCENT_DP => $this->faker->numberBetween(5, 10)/100,
             InputFieldName::PERCENT_MF => $this->faker->numberBetween(8, 10)/100,
             InputFieldName::DP_TERM => $this->faker->numberBetween(12, 24) * 1.00,
             InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
             InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7)/100,
             InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
+            InputFieldName::PROMO_CODE => $this->faker->word(),
         ], ['author' => 'Lester'])]
     ];
 });
 
-test('reference has initial nullable but settable entity attributes', function (Lead $lead) {
+test('reference has initial nullable but settable entity attributes', function (Lead $lead, Contract $contract) {
     $reference = References::create();
     if ($reference instanceof Reference) {
         expect($reference->getInput())->toBeNull();
@@ -181,8 +192,11 @@ test('reference has initial nullable but settable entity attributes', function (
         $contact = $lead->contact;
         expect($contact->id)->toBeUuid();
         $reference->addEntities($contact);
+        expect($contract->id)->toBeUuid();
+        $reference->addEntities($contract);
+        expect($reference->getContract()->id)->toBe($contract->id);
     }
-})->with('lead');
+})->with('lead', 'contract');
 
 test('create reference action', function(Lead $lead, array $attribs) {
     Event::fake();

@@ -38,12 +38,16 @@ class CreateReferenceAction
     public function rules(): array
     {
         return [
+            InputFieldName::SKU => ['required', 'string'],
+            InputFieldName::WAGES => ['required', 'numeric', 'min:10000', 'max:120000'],
+            InputFieldName::TCP => ['required', 'numeric', 'min:500000', 'max:10000000'],
             InputFieldName::PERCENT_DP => ['required', 'numeric', 'min:0', 'max:0.50'],
             InputFieldName::PERCENT_MF => ['required', 'numeric', 'min:0', 'max:0.15'],
             InputFieldName::DP_TERM => ['required', 'integer', 'min:0', 'max:24'],
             InputFieldName::BP_TERM => ['required', 'integer', 'min:0', 'max:30'],
             InputFieldName::BP_INTEREST_RATE => ['required', 'numeric', 'min:0', 'max:0.20'],
             InputFieldName::SELLER_COMMISSION_CODE => ['required', 'string'],
+            InputFieldName::PROMO_CODE => ['nullable', 'string'],
         ];
     }
 
