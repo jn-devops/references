@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer(Input::BP_TERM);
             $table->float(Input::BP_INTEREST_RATE);
             $table->string(Input::SELLER_COMMISSION_CODE);
-            $table->string(Input::PROMO_CODE);
+            $table->string(Input::PROMO_CODE)->nullable();
             $table->timestamps();
         });
     }

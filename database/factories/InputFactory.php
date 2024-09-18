@@ -22,7 +22,7 @@ class InputFactory extends Factory
             InputFieldName::BP_TERM => $this->faker->numberBetween(20, 30) * 1.00,
             InputFieldName::BP_INTEREST_RATE => $this->faker->numberBetween(3, 7) / 100,
             InputFieldName::SELLER_COMMISSION_CODE => $this->faker->word(),
-            InputFieldName::PROMO_CODE => $this->faker->word(),
+//            InputFieldName::PROMO_CODE => $this->faker->word(),
         ];
     }
 }
