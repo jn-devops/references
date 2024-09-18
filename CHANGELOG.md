@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.1.6 - 2024-09-18
+
+nullable input promo_code
+
 ## #v1.1.5 - 2024-09-15
 
 add sku, wages, tcp and promo code to inputs
