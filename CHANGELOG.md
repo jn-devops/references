@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.1.8 - 2024-11-24
+
+fix type in getContact
+
 ## #v1.1.7 - 2024-11-24
 
 add voucher migration and borrower config file
