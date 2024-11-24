@@ -38,6 +38,6 @@ trait HasEntityAttributes
      */
     public function getContact(): ?Contact
     {
-        return $this->getEntities(Contract::class)->first();
+        return $this->getEntities(Contact::class)->first();
     }
 }
