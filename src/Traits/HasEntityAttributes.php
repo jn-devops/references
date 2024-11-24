@@ -3,6 +3,7 @@
 namespace Homeful\References\Traits;
 
 use Homeful\Contracts\Models\Contract;
+use Homeful\Contacts\Models\Contact;
 use Homeful\References\Models\Input;
 use Homeful\KwYCCheck\Models\Lead;
 
@@ -28,6 +29,14 @@ trait HasEntityAttributes
      * @return Contract|null
      */
     public function getContract(): ?Contract
+    {
+        return $this->getEntities(Contract::class)->first();
+    }
+
+    /**
+     * @return Contact|null
+     */
+    public function getContact(): ?Contact
     {
         return $this->getEntities(Contract::class)->first();
     }
