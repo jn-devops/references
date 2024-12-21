@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.1 - 2024-12-21
+
+add contact data to reference data
+
 ## #v1.2.0 - 2024-12-21
 
 introduce dynamic models
