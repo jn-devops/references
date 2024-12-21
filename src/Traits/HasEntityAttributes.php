@@ -2,42 +2,25 @@
 
 namespace Homeful\References\Traits;
 
-use Homeful\Contracts\Models\Contract;
-use Homeful\Contacts\Models\Contact;
-use Homeful\References\Models\Input;
-use Homeful\KwYCCheck\Models\Lead;
-
 trait HasEntityAttributes
 {
-    /**
-     * @return Input|null
-     */
-    public function getInput(): ?Input
+    public function getInput()
     {
-        return $this->getEntities(Input::class)->first();
+        return $this->getEntities(config('references.models.input'))->first();
     }
 
-    /**
-     * @return Lead|null
-     */
-    public function getLead(): ?Lead
+    public function getLead()
     {
-        return $this->getEntities(Lead::class)->first();
+        return $this->getEntities(config('references.models.lead'))->first();
     }
 
-    /**
-     * @return Contract|null
-     */
-    public function getContract(): ?Contract
+    public function getContract()
     {
-        return $this->getEntities(Contract::class)->first();
+        return $this->getEntities(config('references.models.contract'))->first();
     }
 
-    /**
-     * @return Contact|null
-     */
-    public function getContact(): ?Contact
+    public function getContact()
     {
-        return $this->getEntities(Contact::class)->first();
+        return $this->getEntities(config('references.models.contact'))->first();
     }
 }

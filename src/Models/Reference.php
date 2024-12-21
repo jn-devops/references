@@ -5,6 +5,7 @@ namespace Homeful\References\Models;
 use Homeful\References\Traits\HasEntityAttributes;
 use FrittenKeeZ\Vouchers\Models\Voucher;
 use Homeful\Contracts\Models\Contract;
+use Homeful\Contacts\Models\Contact;
 use Homeful\KwYCCheck\Models\Lead;
 use Illuminate\Support\Carbon;
 
@@ -21,6 +22,7 @@ use Illuminate\Support\Carbon;
  * @method Input getInput()
  * @method Lead getLead()
  * @method Contract getContract()
+ * @method Contact getContact()
  * @method int getKey()
  */
 class Reference extends Voucher
