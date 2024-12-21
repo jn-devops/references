@@ -34,9 +34,9 @@ class ReferenceData extends Data
             starts_at: $reference->getAttribute('starts_at'),
             expires_at: $reference->getAttribute('expires_at'),
             redeemed_at: $reference->getAttribute('redeemed_at'),
-            lead: null == $lead ? null : LeadData::fromModel($lead),
-            contract: null == $contract ? null : ContractData::fromModel($contract),
-            contact: null == $contact ? null : ContactData::fromModel($contact)
+            lead: null == $lead ? null : config('references.data.lead')::fromModel($lead),
+            contract: null == $contract ? null : config('references.data.contract')::fromModel($contract),
+            contact: null == $contact ? null : config('references.data.contact')::fromModel($contact)
         );
     }
 }

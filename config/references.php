@@ -8,4 +8,9 @@ return [
         'contract' => \Homeful\Contracts\Models\Contract::class,
         'contact' => \Homeful\Contacts\Models\Contact::class,
     ],
+    'data' => [
+        'lead' => \Homeful\KwYCCheck\Data\LeadData::class,
+        'contract' => \Homeful\Contacts\Data\ContactData::class,
+        'contact' => \Homeful\Contacts\Data\ContactData::class,
+    ],
 ];
