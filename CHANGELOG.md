@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.2 - 2024-12-21
+
+update reference data, dynamic classes
+
 ## #v1.2.1 - 2024-12-21
 
 add contact data to reference data
