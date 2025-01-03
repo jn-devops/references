@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.3 - 2025-01-03
+
+update reference data from contract customer to contract contact
+
 ## #v1.2.2 - 2024-12-21
 
 update reference data, dynamic classes
