@@ -2,9 +2,9 @@
 
 namespace Homeful\References\Data;
 
+use Homeful\Contacts\Classes\ContactMetaData;
 use Homeful\References\Models\Reference;
 use Homeful\Contracts\Data\ContractData;
-use Homeful\Contacts\Data\ContactData;
 use Homeful\KwYCCheck\Data\LeadData;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
@@ -19,14 +19,14 @@ class ReferenceData extends Data
         public ?Carbon $redeemed_at,
         public ?LeadData $lead,
         public ?ContractData $contract,
-        public ?ContactData $contact
+        public ?ContactMetaData $contact
     ) {}
 
     public static function fromModel(Reference $reference): self
     {
         $lead = $reference->getLead();
         $contract = $reference->getContract();
-        $contact = $reference->getContact();
+        $contact = $contract->contact;
 
         return new self (
             code: $reference->code,
@@ -36,7 +36,7 @@ class ReferenceData extends Data
             redeemed_at: $reference->getAttribute('redeemed_at'),
             lead: null == $lead ? null : config('references.data.lead')::fromModel($lead),
             contract: null == $contract ? null : config('references.data.contract')::fromModel($contract),
-            contact: null == $contact ? null : config('references.data.contact')::fromModel($contact)
+            contact: $contact
         );
     }
 }
