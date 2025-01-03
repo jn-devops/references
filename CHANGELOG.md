@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.4 - 2025-01-03
+
+fix minor configuration bug
+
 ## #v1.2.3 - 2025-01-03
 
 update reference data from contract customer to contract contact
