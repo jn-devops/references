@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.5 - 2025-01-03
+
+fix $contact = optional($contract)->contact bug
+
 ## #v1.2.4 - 2025-01-03
 
 fix minor configuration bug
