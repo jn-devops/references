@@ -10,7 +10,7 @@ return [
     ],
     'data' => [
         'lead' => \Homeful\KwYCCheck\Data\LeadData::class,
-        'contract' => \Homeful\Contacts\Data\ContactData::class,
+        'contract' => \Homeful\Contracts\Data\ContractData::class,
         'contact' => \Homeful\Contacts\Data\ContactData::class,
     ],
 ];
