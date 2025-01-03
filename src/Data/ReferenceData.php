@@ -26,7 +26,7 @@ class ReferenceData extends Data
     {
         $lead = $reference->getLead();
         $contract = $reference->getContract();
-        $contact = $contract->contact;
+        $contact = optional($contract)->contact;
 
         return new self (
             code: $reference->code,
