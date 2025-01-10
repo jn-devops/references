@@ -31,6 +31,10 @@ beforeEach(function () {
     $migration->up();
     $migration = include 'vendor/jn-devops/contacts/database/migrations/create_contacts_table.php.stub';
     $migration->up();
+    $migration = include 'vendor/jn-devops/contacts/database/migrations/added_status_reason.php.stub';
+    $migration->up();
+    $migration = include 'vendor/jn-devops/contacts/database/migrations/update_fields_and_then_add_some_in_contacts_table.php.stub';
+    $migration->up();
     $migration = include 'vendor/jn-devops/products/database/migrations/create_products_table.php.stub';
     $migration->up();
     $migration = include 'vendor/jn-devops/properties/database/migrations/create_properties_table.php.stub';
