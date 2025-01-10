@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.6 - 2025-01-10
+
+make input attributes nullable
+
 ## #v1.2.5 - 2025-01-03
 
 fix $contact = optional($contract)->contact bug
