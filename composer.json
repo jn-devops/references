@@ -25,7 +25,7 @@
         "frittenkeez/laravel-vouchers": "^0.5.0",
         "homeful/kwyc-check": "^1.4",
         "illuminate/contracts": "^10.0||^11.0",
-        "jn-devops/contracts": "^1.1",
+        "jn-devops/contracts": "v1.6.0",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {

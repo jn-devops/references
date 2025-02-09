@@ -68,7 +68,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Anais Santos](https://github.com/anais-enclavewrx)
+- [Anaïs Santos](https://github.com/anais-enclavewrx)
 - [All Contributors](../../contributors)
 
 ## License
