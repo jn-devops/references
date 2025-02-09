@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.7 - 2025-02-09
+
+update contracts and contacts version
+
 ## #v1.2.6 - 2025-01-10
 
 make input attributes nullable
