@@ -2,6 +2,10 @@
 
 All notable changes to `references` will be documented in this file.
 
+## #v1.2.8 - 2025-02-13
+
+update composer.json remove kwyc-check
+
 ## #v1.2.7 - 2025-02-09
 
 update contracts and contacts version
