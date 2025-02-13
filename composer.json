@@ -24,7 +24,7 @@
         "php": "^8.2",
         "frittenkeez/laravel-vouchers": "^0.5.0",
         "illuminate/contracts": "^10.0||^11.0",
-        "jn-devops/contracts": "v1.6.0",
+        "jn-devops/contracts": "^v1.6",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
